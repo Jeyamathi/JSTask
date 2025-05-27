@@ -1,4 +1,4 @@
-   const transactionForm = document.getElementById("transactionForm");
+ const transactionForm = document.getElementById("transactionForm");
     const transactionHistory = document.getElementById("transactionHistory");
     const totalIncome = document.getElementById("totalIncome");
     const totalExpense = document.getElementById("totalExpense");
@@ -41,34 +41,35 @@
       transactionHistory.innerHTML = "";
       transactions
         .filter(t => currentFilter === "all" || t.type === currentFilter)
-        .forEach((transaction, index) => {
+        .forEach(transaction => {
           const row = document.createElement("tr");
           row.innerHTML = `
             <td class="px-6 py-4 whitespace-nowrap">${transaction.title}</td>
             <td class="px-6 py-4 whitespace-nowrap">₹${transaction.amount}</td>
             <td class="px-6 py-4 whitespace-nowrap">${transaction.type}</td>
             <td class="px-6 py-4 whitespace-nowrap">
-              <button class="text-yellow-600 hover:underline mr-4" onclick="editTransaction(${index})">Edit</button>
-              <button class="text-red-600 hover:underline" onclick="deleteTransaction(${index})">Delete</button>
+              <button class="text-yellow-600 hover:underline mr-4" onclick="editTransaction(${transaction.id})">Edit</button>
+              <button class="text-red-600 hover:underline" onclick="deleteTransaction(${transaction.id})">Delete</button>
             </td>
           `;
           transactionHistory.appendChild(row);
         });
     }
 
-    function deleteTransaction(index) {
-      transactions.splice(index, 1);
+    function deleteTransaction(id) {
+      transactions = transactions.filter(t => t.id !== id);
       saveToLocalStorage();
       renderTransactions();
       updateSummary();
     }
 
-    function editTransaction(index) {
-      const transaction = transactions[index];
+    function editTransaction(id) {
+      const transaction = transactions.find(t => t.id === id);
+      if (!transaction) return;
       document.getElementById("title").value = transaction.title;
       document.getElementById("amount").value = transaction.amount;
       document.querySelector(`input[name='type'][value='${transaction.type}']`).checked = true;
-      deleteTransaction(index);
+      deleteTransaction(id);
     }
 
     transactionForm.addEventListener("submit", function (e) {
@@ -77,7 +78,7 @@
       const amount = parseFloat(document.getElementById("amount").value);
       const type = document.querySelector("input[name='type']:checked").value;
 
-      transactions.push({ title, amount, type });
+      transactions.push({ id: Date.now(), title, amount, type });
       saveToLocalStorage();
       renderTransactions();
       updateSummary();
