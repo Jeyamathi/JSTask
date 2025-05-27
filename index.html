@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Income & Expense Tracker</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-4 rounded-lg text-center shadow">
+    <h1 class="text-2xl font-bold">Finance Tracker</h1>
+  </header>
+
+  <!-- Add Transaction Form -->
+  <section class="bg-white mt-6 p-6 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-4">Add Transaction</h2>
+    <form id="transactionForm" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <input type="text" id="title" placeholder="Title" required class="border p-2 rounded" />
+      <input type="number" id="amount" placeholder="Amount" required class="border p-2 rounded" />
+      <div class="flex items-center space-x-4">
+        <label class="flex items-center">
+          <input type="radio" name="type" value="income" class="mr-2" checked>
+          <span>Income</span>
+        </label>
+        <label class="flex items-center">
+          <input type="radio" name="type" value="expense" class="mr-2">
+          <span>Expense</span>
+        </label>
+      </div>
+      <div class="col-span-1 md:col-span-3 flex gap-4">
+        <input type="submit" value="Add" class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition cursor-pointer" />
+        <input type="reset" value="Reset" class="bg-gray-300 text-gray-800 p-2 rounded hover:bg-gray-400 transition cursor-pointer" />
+      </div>
+    </form>
+  </section>
+
+  <!-- Summary Section -->
+  <section class="bg-white mt-6 p-6 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-4">Summary</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+      <div>
+        <p class="text-gray-500">Total Income</p>
+        <p id="totalIncome" class="text-green-600 text-lg font-bold">₹0</p>
+      </div>
+      <div>
+        <p class="text-gray-500">Total Expense</p>
+        <p id="totalExpense" class="text-red-600 text-lg font-bold">₹0</p>
+      </div>
+      <div>
+        <p class="text-gray-500">Balance</p>
+        <p id="balance" class="text-blue-600 text-lg font-bold">₹0</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Transaction List -->
+  <section class="bg-white mt-6 p-6 rounded-lg shadow">
+    <div class="flex">
+      <h2 class="text-xl font-semibold mb-4">Transaction History</h2>
+      <div class="ml-auto flex items-center space-x-2">
+        <label for="filterAll" class="text-sm text-gray-600">Filter:</label>
+        <input type="radio" name="filter" value="all" id="filterAll" class="ml-auto mr-2" checked>
+        <label for="filterAll" class="mr-2">All</label>
+        <input type="radio" name="filter" value="income" id="filterIncome" class="mr-2">
+        <label for="filterIncome" class="text-sm text-gray-600">Income</label>
+        <input type="radio" name="filter" value="expense" id="filterExpense" class="mr-2">
+        <label for="filterExpense" class="text-sm text-gray-600">Expense</label>
+      </div>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="transactionHistory" class="bg-white divide-y divide-gray-200">
+          <!-- Transactions will be dynamically added here -->
+        </tbody>
+      </table>
+    </div>
+  </section>
+   <script src="app.js"></script>
+  </body>
+  </html>
